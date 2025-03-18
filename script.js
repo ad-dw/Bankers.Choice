@@ -9,6 +9,8 @@ const btnCloseModal = document.querySelector(".btn--close-modal");
 const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 
 const scrollBtn = document.querySelector(".btn--scroll-to");
+const headerElement = document.querySelector(".header");
+const navElement = document.querySelector("nav");
 
 const openModal = function () {
   modal.classList.remove("hidden");
@@ -38,3 +40,17 @@ document.addEventListener("keydown", function (e) {
 });
 
 scrollBtn.addEventListener("click", scrollToSection);
+
+const handleScroll = function (entries) {
+  let entry = entries[0];
+  if (entry.isIntersecting) navElement.classList.remove("sticky");
+  else navElement.classList.add("sticky");
+};
+
+const headerObserver = new IntersectionObserver(handleScroll, {
+  root: null,
+  rootMargin: `-${navElement.getBoundingClientRect().height}px`,
+  threshold: 0,
+});
+
+headerObserver.observe(headerElement);
