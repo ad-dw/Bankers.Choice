@@ -12,6 +12,10 @@ const scrollBtn = document.querySelector(".btn--scroll-to");
 const headerElement = document.querySelector(".header");
 const navElement = document.querySelector("nav");
 
+const operationsTabContainer = document.querySelector(
+  ".operations__tab-container"
+);
+
 const openModal = function () {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -54,3 +58,20 @@ const headerObserver = new IntersectionObserver(handleScroll, {
 });
 
 headerObserver.observe(headerElement);
+
+const handleTabClick = (e) => {
+  let target = e.target.closest(".operations__tab");
+  let tabElements = document.querySelectorAll(".operations__tab");
+  let tabContent = document.querySelectorAll(".operations__content");
+  let activeTab = document.querySelector(
+    `.operations__content--${target.dataset.tab}`
+  );
+  tabElements.forEach((tab) => tab.classList.remove("operations__tab--active"));
+  target.classList.add("operations__tab--active");
+  tabContent.forEach((tabContent) =>
+    tabContent.classList.remove("operations__content--active")
+  );
+  activeTab.classList.add("operations__content--active");
+};
+
+operationsTabContainer.addEventListener("click", handleTabClick);
