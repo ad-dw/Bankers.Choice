@@ -11,6 +11,7 @@ const btnsOpenModal = document.querySelectorAll(".btn--show-modal");
 const scrollBtn = document.querySelector(".btn--scroll-to");
 const headerElement = document.querySelector(".header");
 const navElement = document.querySelector("nav");
+const navLinksContainer = document.querySelector(".nav__links");
 
 const operationsTabContainer = document.querySelector(
   ".operations__tab-container"
@@ -74,4 +75,19 @@ const handleTabClick = (e) => {
   activeTab.classList.add("operations__content--active");
 };
 
+const handleHoverAndOut = function (e, opacity) {
+  let target = e.target;
+  if (!target.classList.contains("nav__link")) return;
+  let targetSiblings = navLinksContainer.querySelectorAll(".nav__link");
+  targetSiblings.forEach((sibling) => {
+    if (sibling !== target) {
+      sibling.style.opacity = opacity;
+    }
+  });
+};
+
 operationsTabContainer.addEventListener("click", handleTabClick);
+navLinksContainer.addEventListener("mouseover", (e) =>
+  handleHoverAndOut(e, 0.5)
+);
+navLinksContainer.addEventListener("mouseout", (e) => handleHoverAndOut(e, 1));
