@@ -17,6 +17,8 @@ const operationsTabContainer = document.querySelector(
   ".operations__tab-container"
 );
 
+const slideRightButton = document.querySelector(".slider__btn--right");
+
 const openModal = function () {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
@@ -86,8 +88,29 @@ const handleHoverAndOut = function (e, opacity) {
   });
 };
 
+const slides = document.querySelectorAll(".slide");
+let currentSlide = 0;
+
+const scrollSlide = function () {
+  slides.forEach((slide, idx) => {
+    slide.style.transform = `translateX(${idx * 100 - 100 * currentSlide}%)`;
+  });
+};
+
+const slideRight = function (event) {
+  event.preventDefault();
+  currentSlide = (currentSlide + 1) % slides.length;
+  scrollSlide();
+};
+
+const initSlider = function () {
+  scrollSlide();
+};
+
 operationsTabContainer.addEventListener("click", handleTabClick);
 navLinksContainer.addEventListener("mouseover", (e) =>
   handleHoverAndOut(e, 0.5)
 );
 navLinksContainer.addEventListener("mouseout", (e) => handleHoverAndOut(e, 1));
+slideRightButton.addEventListener("click", slideRight);
+initSlider();
