@@ -17,7 +17,10 @@ const operationsTabContainer = document.querySelector(
   ".operations__tab-container"
 );
 
+const slider = document.querySelector(".slider");
+const slides = document.querySelectorAll(".slide");
 const slideRightButton = document.querySelector(".slider__btn--right");
+let currentSlide = 0;
 
 const openModal = function () {
   modal.classList.remove("hidden");
@@ -88,19 +91,21 @@ const handleHoverAndOut = function (e, opacity) {
   });
 };
 
-const slides = document.querySelectorAll(".slide");
-let currentSlide = 0;
-
 const scrollSlide = function () {
   slides.forEach((slide, idx) => {
     slide.style.transform = `translateX(${idx * 100 - 100 * currentSlide}%)`;
   });
 };
 
-const slideRight = function (event) {
-  event.preventDefault();
+const slideRight = function () {
   currentSlide = (currentSlide + 1) % slides.length;
   scrollSlide();
+};
+
+const handleKeyboardInteraction = function (event) {
+  event.preventDefault();
+  event.stopPropagation();
+  if (event.key === "ArrowRight") slideRight();
 };
 
 const initSlider = function () {
@@ -113,4 +118,6 @@ navLinksContainer.addEventListener("mouseover", (e) =>
 );
 navLinksContainer.addEventListener("mouseout", (e) => handleHoverAndOut(e, 1));
 slideRightButton.addEventListener("click", slideRight);
+
+slider.addEventListener("keydown", handleKeyboardInteraction);
 initSlider();
