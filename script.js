@@ -102,10 +102,16 @@ const slideRight = function () {
   scrollSlide();
 };
 
+const slideLeft = function () {
+  currentSlide = currentSlide ? currentSlide - 1 : slides.length - 1;
+  scrollSlide();
+};
+
 const handleKeyboardInteraction = function (event) {
   event.preventDefault();
   event.stopPropagation();
   if (event.key === "ArrowRight") slideRight();
+  if (event.key === "ArrowLeft") slideLeft();
 };
 
 const initSlider = function () {
