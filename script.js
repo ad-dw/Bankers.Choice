@@ -20,6 +20,7 @@ const operationsTabContainer = document.querySelector(
 const slider = document.querySelector(".slider");
 const slides = document.querySelectorAll(".slide");
 const slideRightButton = document.querySelector(".slider__btn--right");
+const slideLeftButton = document.querySelector(".slider__btn--left");
 let currentSlide = 0;
 
 const openModal = function () {
@@ -108,7 +109,6 @@ const slideLeft = function () {
 };
 
 const handleKeyboardInteraction = function (event) {
-  event.preventDefault();
   event.stopPropagation();
   if (event.key === "ArrowRight") slideRight();
   if (event.key === "ArrowLeft") slideLeft();
@@ -124,6 +124,7 @@ navLinksContainer.addEventListener("mouseover", (e) =>
 );
 navLinksContainer.addEventListener("mouseout", (e) => handleHoverAndOut(e, 1));
 slideRightButton.addEventListener("click", slideRight);
+slideLeftButton.addEventListener("click", slideLeft);
 
 slider.addEventListener("keydown", handleKeyboardInteraction);
 initSlider();
