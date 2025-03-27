@@ -103,6 +103,7 @@ p {
 /* This is BAD for accessibility! Don't do in the real world! */
 button:focus {
   outline: none;
+  border: 1px solid black;
 }
 
 img {
@@ -418,10 +419,6 @@ h4 {
   width: 5.5rem;
   font-size: 3.25rem;
   cursor: pointer;
-}
-
-.slider__btn:focus {
-  border: 1px solid black;
 }
 
 .slider__btn--left {
