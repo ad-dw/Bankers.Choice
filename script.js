@@ -23,34 +23,27 @@ const slideRightButton = document.querySelector(".slider__btn--right");
 const slideLeftButton = document.querySelector(".slider__btn--left");
 let currentSlide = 0;
 
-const openModal = function () {
-  modal.classList.remove("hidden");
-  overlay.classList.remove("hidden");
-};
-
 const closeModal = function () {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
 };
 
-const scrollToSection = function () {
-  const sectionElement = document.querySelector("#section--1");
-  sectionElement?.scrollIntoView({ behavior: "smooth" });
+const handleHoverAndOut = function (e, opacity) {
+  let target = e.target;
+  if (!target.classList.contains("nav__link")) return;
+  let targetSiblings = navLinksContainer.querySelectorAll(".nav__link");
+  targetSiblings.forEach((sibling) => {
+    if (sibling !== target) {
+      sibling.style.opacity = opacity;
+    }
+  });
 };
 
-for (let i = 0; i < btnsOpenModal.length; i++)
-  btnsOpenModal[i].addEventListener("click", openModal);
-
-btnCloseModal.addEventListener("click", closeModal);
-overlay.addEventListener("click", closeModal);
-
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Escape" && !modal.classList.contains("hidden")) {
-    closeModal();
-  }
-});
-
-scrollBtn.addEventListener("click", scrollToSection);
+const handleKeyboardInteraction = function (event) {
+  event.stopPropagation();
+  if (event.key === "ArrowRight") slideRight();
+  if (event.key === "ArrowLeft") slideLeft();
+};
 
 const handleScroll = function (entries) {
   let entry = entries[0];
@@ -81,15 +74,9 @@ const handleTabClick = (e) => {
   activeTab.classList.add("operations__content--active");
 };
 
-const handleHoverAndOut = function (e, opacity) {
-  let target = e.target;
-  if (!target.classList.contains("nav__link")) return;
-  let targetSiblings = navLinksContainer.querySelectorAll(".nav__link");
-  targetSiblings.forEach((sibling) => {
-    if (sibling !== target) {
-      sibling.style.opacity = opacity;
-    }
-  });
+const openModal = function () {
+  modal.classList.remove("hidden");
+  overlay.classList.remove("hidden");
 };
 
 const scrollSlide = function () {
@@ -98,8 +85,12 @@ const scrollSlide = function () {
   });
 };
 
-const slideRight = function () {
-  currentSlide = (currentSlide + 1) % slides.length;
+const scrollToSection = function () {
+  const sectionElement = document.querySelector("#section--1");
+  sectionElement?.scrollIntoView({ behavior: "smooth" });
+};
+
+const initSlider = function () {
   scrollSlide();
 };
 
@@ -108,23 +99,39 @@ const slideLeft = function () {
   scrollSlide();
 };
 
-const handleKeyboardInteraction = function (event) {
-  event.stopPropagation();
-  if (event.key === "ArrowRight") slideRight();
-  if (event.key === "ArrowLeft") slideLeft();
-};
-
-const initSlider = function () {
+const slideRight = function () {
+  currentSlide = (currentSlide + 1) % slides.length;
   scrollSlide();
 };
 
-operationsTabContainer.addEventListener("click", handleTabClick);
-navLinksContainer.addEventListener("mouseover", (e) =>
-  handleHoverAndOut(e, 0.5)
-);
-navLinksContainer.addEventListener("mouseout", (e) => handleHoverAndOut(e, 1));
-slideRightButton.addEventListener("click", slideRight);
-slideLeftButton.addEventListener("click", slideLeft);
+//registering Events
+const registerEvents = function () {
+  console.log("here");
+  for (let i = 0; i < btnsOpenModal.length; i++)
+    btnsOpenModal[i].addEventListener("click", openModal);
 
-slider.addEventListener("keydown", handleKeyboardInteraction);
+  btnCloseModal.addEventListener("click", closeModal);
+  overlay.addEventListener("click", closeModal);
+
+  document.addEventListener("keydown", function (e) {
+    if (e.key === "Escape" && !modal.classList.contains("hidden")) {
+      closeModal();
+    }
+  });
+
+  scrollBtn.addEventListener("click", scrollToSection);
+
+  operationsTabContainer.addEventListener("click", handleTabClick);
+  navLinksContainer.addEventListener("mouseover", (e) =>
+    handleHoverAndOut(e, 0.5)
+  );
+  navLinksContainer.addEventListener("mouseout", (e) =>
+    handleHoverAndOut(e, 1)
+  );
+  slideRightButton.addEventListener("click", slideRight);
+  slideLeftButton.addEventListener("click", slideLeft);
+  slider.addEventListener("keydown", handleKeyboardInteraction);
+};
+
+registerEvents();
 initSlider();
