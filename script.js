@@ -10,6 +10,26 @@ const headerElement = document.querySelector(".header");
 const navElement = document.querySelector("nav");
 const navLinksContainer = document.querySelector(".nav__links");
 
+const sections = document.querySelectorAll(".section");
+
+const handleSectionScroll = function (entries, observer) {
+  let entry = entries[0];
+  if (entry.isIntersecting) {
+    entry.target.classList.remove("section--hidden");
+    observer.unobserve(entry.target);
+  }
+};
+
+let sectionObserver = new IntersectionObserver(handleSectionScroll, {
+  root: null,
+  threshold: 0,
+});
+
+sections.forEach((section) => {
+  section.classList.add("section--hidden");
+  sectionObserver.observe(section);
+});
+
 const operationsTabContainer = document.querySelector(
   ".operations__tab-container"
 );
