@@ -22,7 +22,7 @@ const handleSectionScroll = function (entries, observer) {
 
 let sectionObserver = new IntersectionObserver(handleSectionScroll, {
   root: null,
-  threshold: 0,
+  threshold: 0.15,
 });
 
 sections.forEach((section) => {
