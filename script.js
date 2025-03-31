@@ -12,24 +12,6 @@ const navLinksContainer = document.querySelector(".nav__links");
 
 const sections = document.querySelectorAll(".section");
 
-const handleSectionScroll = function (entries, observer) {
-  let entry = entries[0];
-  if (entry.isIntersecting) {
-    entry.target.classList.remove("section--hidden");
-    observer.unobserve(entry.target);
-  }
-};
-
-let sectionObserver = new IntersectionObserver(handleSectionScroll, {
-  root: null,
-  threshold: 0,
-});
-
-sections.forEach((section) => {
-  section.classList.add("section--hidden");
-  sectionObserver.observe(section);
-});
-
 const operationsTabContainer = document.querySelector(
   ".operations__tab-container"
 );
@@ -68,13 +50,31 @@ const handleScroll = function (entries) {
   else navElement.classList.add("sticky");
 };
 
+const handleSectionScroll = function (entries, observer) {
+  let entry = entries[0];
+  if (entry.isIntersecting) {
+    entry.target.classList.remove("section--hidden");
+    observer.unobserve(entry.target);
+  }
+};
+
 const headerObserver = new IntersectionObserver(handleScroll, {
   root: null,
   rootMargin: `-${navElement.getBoundingClientRect().height}px`,
   threshold: 0,
 });
 
+let sectionObserver = new IntersectionObserver(handleSectionScroll, {
+  root: null,
+  threshold: 0.15,
+});
+
 headerObserver.observe(headerElement);
+
+sections.forEach((section) => {
+  section.classList.add("section--hidden");
+  sectionObserver.observe(section);
+});
 
 const handleTabClick = (e) => {
   let target = e.target.closest(".operations__tab");
