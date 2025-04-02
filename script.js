@@ -91,9 +91,10 @@ const handleTabClick = (e) => {
   activeTab.classList.add("operations__content--active");
 };
 
-const openModal = function () {
+const openModal = function (e) {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
+  btnCloseModal.focus();
 };
 
 const scrollSlide = function () {
