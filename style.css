@@ -657,7 +657,7 @@ h4 {
 }
 
 .hidden {
-  visibility: hidden;
+  display: none;
   opacity: 0;
 }
 
