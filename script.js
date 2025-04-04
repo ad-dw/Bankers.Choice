@@ -22,6 +22,25 @@ const slideRightButton = document.querySelector(".slider__btn--right");
 const slideLeftButton = document.querySelector(".slider__btn--left");
 let currentSlide = 0;
 
+const images = document.querySelectorAll("img[data-src]");
+
+const handleLazyLoad = function (entries, observer) {
+  const entry = entries[0];
+  const target = entry.target;
+  if (entry.isIntersecting) {
+    target.src = target.getAttribute("data-src");
+    target.classList.remove("lazy-img");
+    observer.unobserve(target);
+  }
+};
+
+const imageObserver = new IntersectionObserver(handleLazyLoad, {
+  root: null,
+  threshold: 0,
+});
+
+images.forEach((img) => imageObserver.observe(img));
+
 const closeModal = function () {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
@@ -124,7 +143,6 @@ const slideRight = function () {
 
 //registering Events
 const registerEvents = function () {
-  console.log("here");
   for (let i = 0; i < btnsOpenModal.length; i++)
     btnsOpenModal[i].addEventListener("click", openModal);
 
