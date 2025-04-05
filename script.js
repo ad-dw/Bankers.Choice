@@ -24,6 +24,7 @@ let currentSlide = 0;
 
 const images = document.querySelectorAll("img[data-src]");
 
+//Observer callbacks
 const handleLazyLoad = function (entries, observer) {
   const entry = entries[0];
   const target = entry.target;
@@ -34,12 +35,46 @@ const handleLazyLoad = function (entries, observer) {
   }
 };
 
+const handleScroll = function (entries) {
+  let entry = entries[0];
+  if (entry.isIntersecting) navElement.classList.remove("sticky");
+  else navElement.classList.add("sticky");
+};
+
+const handleSectionScroll = function (entries, observer) {
+  let entry = entries[0];
+  if (entry.isIntersecting) {
+    entry.target.classList.remove("section--hidden");
+    observer.unobserve(entry.target);
+  }
+};
+
+//Observers
 const imageObserver = new IntersectionObserver(handleLazyLoad, {
   root: null,
   threshold: 0,
 });
 
+const headerObserver = new IntersectionObserver(handleScroll, {
+  root: null,
+  rootMargin: `-${navElement.getBoundingClientRect().height}px`,
+  threshold: 0,
+});
+
+let sectionObserver = new IntersectionObserver(handleSectionScroll, {
+  root: null,
+  threshold: 0.15,
+});
+
+//Observing elements
 images.forEach((img) => imageObserver.observe(img));
+
+headerObserver.observe(headerElement);
+
+sections.forEach((section) => {
+  section.classList.add("section--hidden");
+  sectionObserver.observe(section);
+});
 
 const closeModal = function () {
   modal.classList.add("hidden");
@@ -62,38 +97,6 @@ const handleKeyboardInteraction = function (event) {
   if (event.key === "ArrowRight") slideRight();
   if (event.key === "ArrowLeft") slideLeft();
 };
-
-const handleScroll = function (entries) {
-  let entry = entries[0];
-  if (entry.isIntersecting) navElement.classList.remove("sticky");
-  else navElement.classList.add("sticky");
-};
-
-const handleSectionScroll = function (entries, observer) {
-  let entry = entries[0];
-  if (entry.isIntersecting) {
-    entry.target.classList.remove("section--hidden");
-    observer.unobserve(entry.target);
-  }
-};
-
-const headerObserver = new IntersectionObserver(handleScroll, {
-  root: null,
-  rootMargin: `-${navElement.getBoundingClientRect().height}px`,
-  threshold: 0,
-});
-
-let sectionObserver = new IntersectionObserver(handleSectionScroll, {
-  root: null,
-  threshold: 0.15,
-});
-
-headerObserver.observe(headerElement);
-
-sections.forEach((section) => {
-  section.classList.add("section--hidden");
-  sectionObserver.observe(section);
-});
 
 const handleTabClick = (e) => {
   let target = e.target.closest(".operations__tab");
