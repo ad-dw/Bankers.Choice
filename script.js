@@ -113,10 +113,12 @@ const handleTabClick = (e) => {
   activeTab.classList.add("operations__content--active");
 };
 
+let modalChildren;
 const openModal = function (e) {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
   btnCloseModal.focus();
+  modalChildren = Array.from(modal.querySelectorAll("[data-focusable]"));
 };
 
 const scrollSlide = function () {
@@ -144,12 +146,38 @@ const slideRight = function () {
   scrollSlide();
 };
 
+const trapFocus = function (event) {
+  event.preventDefault();
+  let nextFocusableElement;
+  let index = modalChildren.findIndex((ele) => ele === event.target);
+  if (event.shiftKey && event.key === "Tab") {
+    if (!event.target.previousElementSibling) {
+      nextFocusableElement = modalChildren.findLast(
+        (ele) => ele.dataset.focusable
+      );
+    } else {
+      nextFocusableElement = modalChildren.findLast(
+        (ele, idx) => ele.dataset.focusable && idx < index
+      );
+    }
+  } else if (event.key === "Tab") {
+    nextFocusableElement = modalChildren.find(
+      (ele, idx) => ele.dataset.focusable && idx > index
+    );
+    if (!nextFocusableElement) {
+      nextFocusableElement = modalChildren.find((ele) => ele.dataset.focusable);
+    }
+  }
+  nextFocusableElement?.focus();
+};
+
 //registering Events
 const registerEvents = function () {
   for (let i = 0; i < btnsOpenModal.length; i++)
     btnsOpenModal[i].addEventListener("click", openModal);
 
   btnCloseModal.addEventListener("click", closeModal);
+  modal.addEventListener("keydown", trapFocus);
   overlay.addEventListener("click", closeModal);
 
   document.addEventListener("keydown", function (e) {
