@@ -672,3 +672,10 @@ h4 {
   font-size: 1.5rem;
   font-weight: 400;
 }
+
+.instruction {
+  height: 1px !important;
+  width: 1px !important;
+  visibility: hidden;
+  overflow: hidden;
+}
