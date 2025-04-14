@@ -679,3 +679,7 @@ h4 {
   visibility: hidden;
   overflow: hidden;
 }
+
+.footer-btn:focus {
+  border: 2px solid white;
+}
