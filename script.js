@@ -94,6 +94,7 @@ const handleHoverAndOut = function (e, opacity) {
 
 const handleKeyboardInteraction = function (event) {
   event.stopPropagation();
+  event.preventDefault();
   if (event.key === "ArrowRight") slideRight();
   if (event.key === "ArrowLeft") slideLeft();
 };
@@ -125,6 +126,7 @@ const scrollSlide = function () {
   slides.forEach((slide, idx) => {
     slide.style.transform = `translateX(${idx * 100 - 100 * currentSlide}%)`;
   });
+  slider.ariaValueNow = currentSlide + 1;
 };
 
 const scrollToSection = function () {
