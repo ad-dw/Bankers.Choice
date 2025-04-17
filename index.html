@@ -230,6 +230,7 @@
         role="slider"
         aria-label="review slider"
         aria-describedby="slider-instructions"
+        aria-valuenow="1"
       >
         <span id="slider-instructions" class="instruction"
           >Use left or right arrow keys to navigate through slides.</span
@@ -293,12 +294,16 @@
             </address>
           </div>
         </div>
-        <button class="slider__btn slider__btn--left" aria-label="slide left">
+        <span
+          class="slider__btn slider__btn--left"
+          aria-label="slide left"
+          role="presentation"
+        >
           &larr;
-        </button>
-        <button class="slider__btn slider__btn--right" aria-label="slide right">
+        </span>
+        <span class="slider__btn slider__btn--right" aria-label="slide right">
           &rarr;
-        </button>
+        </span>
         <div class="dots"></div>
       </div>
     </section>
