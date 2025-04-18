@@ -88,7 +88,7 @@ body {
   font-size: 1.7rem;
   font-family: inherit;
   font-weight: 500;
-  color: var(--color-primary);
+  color: #2f7950;
   border: none;
   border-bottom: 1px solid currentColor;
   padding-bottom: 2px;
