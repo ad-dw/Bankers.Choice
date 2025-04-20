@@ -79,6 +79,7 @@ sections.forEach((section) => {
 const closeModal = function () {
   modal.classList.add("hidden");
   overlay.classList.add("hidden");
+  modalTarget?.focus();
 };
 
 const handleHoverAndOut = function (e, opacity) {
@@ -94,7 +95,6 @@ const handleHoverAndOut = function (e, opacity) {
 
 const handleKeyboardInteraction = function (event) {
   event.stopPropagation();
-  event.preventDefault();
   if (event.key === "ArrowRight") slideRight();
   if (event.key === "ArrowLeft") slideLeft();
 };
@@ -115,10 +115,12 @@ const handleTabClick = (e) => {
 };
 
 let modalChildren;
+let modalTarget;
 const openModal = function (e) {
   modal.classList.remove("hidden");
   overlay.classList.remove("hidden");
   btnCloseModal.focus();
+  modalTarget = e.target;
   modalChildren = Array.from(modal.querySelectorAll("[data-focusable]"));
 };
 
